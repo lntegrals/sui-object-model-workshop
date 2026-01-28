@@ -95,7 +95,7 @@ Navigate to [`scripts/src/return_objects_exercise.ts`](./scripts/src/return_obje
 
 There are a lot of situations where one will want to interact with objects on Sui. Referencing and using objects in Sui Move is simple but nuanced. To reference an object in Sui Move, make the object a function parameter. For example, 
 
-```
+```move
 public struct SimpleObject has key, store {
   id: UID, 
   value: u64 
