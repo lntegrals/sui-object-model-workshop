@@ -30,6 +30,9 @@ pnpm run init-keypair
 
 This will generate and fund a new keypair for you to use in the workshop. Make sure not to use this keypair in any production environments.
 
+
+**If you are at a hackathon, ask your Sui rep for testnet tokens!**
+
 Sui Faucet options:
 - [n1stake faucet](https://faucet.n1stake.com)
 - [Official Sui faucet](https://faucet.sui.io/)
