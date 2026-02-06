@@ -6,6 +6,7 @@ When learning Sui Move, developers are encouraged to use best practices to utili
 - [Sui Object Model and PTBs Workshop](#sui-object-model-and-ptbs-workshop)
 - [Table of Contents](#table-of-contents)
 - [Environment Setup](#environment-setup)
+  - [Getting testing credits](#getting-testing-credits)
 - [Lessons](#lessons)
   - [Lesson 1: Handling Returned Objects](#lesson-1-handling-returned-objects)
     - [Exercise 1: Handling Returned Sui NFT](#exercise-1-handling-returned-sui-nft)
@@ -28,15 +29,10 @@ Navigate to the `scripts` directory and run the following command:
 pnpm run init-keypair
 ```
 
-This will generate and fund a new keypair for you to use in the workshop. Make sure not to use this keypair in any production environments.
+This will generate a new keypair for you to use in the workshop. Make sure not to use this keypair in any production environments.
 
-
-**If you are at a hackathon, ask your Sui rep for testnet tokens!**
-
-Sui Faucet options:
-- [n1stake faucet](https://faucet.n1stake.com)
-- [Official Sui faucet](https://faucet.sui.io/)
-- [Discord faucet](https://discord.gg/cKx75xrRMq)
+## Getting testing credits
+If you are at a hackathon or workshop event, ask your Sui rep for a dedicated faucet. Otherwise, use the [Official Sui faucet](https://faucet.sui.io/).
 
 # Lessons
 

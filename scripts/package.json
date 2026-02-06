@@ -1,6 +1,7 @@
 {
   "name": "scripts",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
@@ -15,7 +16,7 @@
     "scavenger-hunt": "ts-node src/scavenger_hunt_exercise.ts"
   },
   "dependencies": {
-    "@mysten/sui": "^1.8.0",
+    "@mysten/sui": "^2.3.0",
     "dotenv": "^16.4.5"
   }
 }

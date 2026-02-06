@@ -1,8 +1,6 @@
-import { Transaction } from "@mysten/sui/transactions";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
-import { decodeSuiPrivateKey } from "@mysten/sui/cryptography";
-import keyPairJson from "../keypair.json";
+import keyPairJson from "../keypair.json" with { type: "json" };
+import { SuiGrpcClient } from "@mysten/sui/grpc";
 
 /**
  *
@@ -11,14 +9,15 @@ import keyPairJson from "../keypair.json";
  * These variables are used throughout the exercise below.
  *
  */
-const { secretKey } = decodeSuiPrivateKey(keyPairJson.privateKey);
-const keypair = Ed25519Keypair.fromSecretKey(secretKey);
+const keypair = Ed25519Keypair.fromSecretKey(keyPairJson.privateKey);
 
 const PACKAGE_ID = `0x9603a31f4b3f32843b819b8ed85a5dd3929bf1919c6693465ad7468f9788ef39`;
 const VAULT_ID = `0x8d85d37761d2a4e391c1b547c033eb0e22eb5b825820cbcc0c386b8ecb22be33`;
 
-const rpcUrl = getFullnodeUrl("testnet");
-const suiClient = new SuiClient({ url: rpcUrl });
+const suiClient = new SuiGrpcClient({
+	network: 'testnet',
+	baseUrl: 'https://fullnode.testnet.sui.io:443',
+});
 
 /**
  * Scavenger Hunt: Exercise 3
