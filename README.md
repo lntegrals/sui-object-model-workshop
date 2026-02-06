@@ -26,10 +26,10 @@ cd scripts && pnpm install
 Navigate to the `scripts` directory and run the following command: 
 
 ```bash
-pnpm run init-keypair
+pnpm init-keypair
 ```
 
-This will generate a new keypair for you to use in the workshop. Make sure not to use this keypair in any production environments.
+This will generate a new Ed25519 keypair and save it to `keypair.json` in the scripts directory. **Make sure not to use this keypair in any production environments.**
 
 ## Getting testing credits
 If you are at a hackathon or workshop event, ask your Sui rep for a dedicated faucet. Otherwise, use the [Official Sui faucet](https://faucet.sui.io/).
