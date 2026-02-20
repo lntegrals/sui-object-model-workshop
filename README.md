@@ -3,9 +3,12 @@
 When learning Sui Move, developers are encouraged to use best practices to utilize the Sui object model and ensure on-chain object composability. Developers learn to write composable move code in a timely manner, but struggle to verify their code by deploying and executing the functionality on chain. The key to mastering the Sui object model is to pair your Sui move development sessions with interacting with on-chain objects via PTBs (Programmable Transaction Blocks). This workshop will guide you through the process of writing Sui Move code, deploying it to the Sui blockchain, and interacting with on-chain objects via PTBs.
 
 # Table of Contents
+
 - [Sui Object Model and PTBs Workshop](#sui-object-model-and-ptbs-workshop)
 - [Table of Contents](#table-of-contents)
-- [Environment Setup](#environment-setup)
+- [Getting Started](#getting-started)
+  - [Create Your Own Copy of This Repo](#create-your-own-copy-of-this-repo)
+  - [Environment Setup](#environment-setup)
   - [Getting testing credits](#getting-testing-credits)
 - [Lessons](#lessons)
   - [Lesson 1: Handling Returned Objects](#lesson-1-handling-returned-objects)
@@ -15,15 +18,47 @@ When learning Sui Move, developers are encouraged to use best practices to utili
   - [Lesson 3: Putting it together](#lesson-3-putting-it-together)
     - [Exercise 3: Scavenger Hunting with PTBs](#exercise-3-scavenger-hunting-with-ptbs)
 
-# Environment Setup
+# Getting Started
 
-Before we start, we need to set up our environment for our scripts.
+## Create Your Own Copy of This Repo
+
+> **Important:** Do NOT clone or fork this repository directly. Instead, create a **template copy** so you have your own independent repo to work in.
+
+1. At the top of this repository's GitHub page, click the **"Use this template"** button (top-right corner).
+2. Select **"Create a new repository"**.
+3. Give your repo a name, and **make sure it is set to Public**.
+4. Click **"Create repository"**.
+5. Clone your newly created repository to your local machine:
 
 ```bash
-cd scripts && pnpm install
+git clone <your-new-repo-url>
+cd <your-new-repo-name>
 ```
 
-Navigate to the `scripts` directory and run the following command: 
+## Environment Setup
+
+Now that you have your own copy, set up your environment and create a keypair for interacting with the Sui blockchain.
+
+### Prerequisites
+
+- Node.js (v18 or higher recommended)
+- pnpm package manager
+
+### Setup Instructions
+
+1. Navigate to the `scripts` directory:
+
+```bash
+cd scripts
+```
+
+1. Install dependencies:
+
+```bash
+pnpm install
+```
+
+1. Generate and fund a new keypair:
 
 ```bash
 pnpm init-keypair
@@ -32,7 +67,14 @@ pnpm init-keypair
 This will generate a new Ed25519 keypair and save it to `keypair.json` in the scripts directory. **Make sure not to use this keypair in any production environments.**
 
 ## Getting testing credits
-If you are at a hackathon or workshop event, ask your Sui rep for a dedicated faucet. Otherwise, use the [Official Sui faucet](https://faucet.sui.io/).
+
+If you are at a hackathon or workshop event, ask your Sui rep for a dedicated faucet (or check the track details). Otherwise, use the [Official Sui faucet](https://faucet.sui.io/).
+
+You can view your account and balance on the Sui Explorer at:
+
+```
+https://suiscan.xyz/testnet/account/{your-address}
+```
 
 # Lessons
 
@@ -76,19 +118,17 @@ public fun new(ctx: &mut TxContext): NewObject {
   
 ```
 
-This is easy enough to do, but in most cases (when the object doesn't have the [`drop` ability](https://move-book.com/reference/abilities.html?highlight=drop#drop)), if the returned object is not handled properly, the transaction will fail.
+This is easy enough to do, but in most cases (when the object doesn't have the `[drop` ability](https://move-book.com/reference/abilities.html?highlight=drop#drop)), if the returned object is not handled properly, the transaction will fail.
 
 In this lesson, you learn how to handle returned objects properly.
 
 ### Exercise 1: Handling Returned Sui NFT
 
+The package of the SUIII NFT is at `[0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0](https://suiscan.xyz/testnet/object/0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0/tx-blocks)` and the NFT object type is `[0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0::sui_nft::SuiNFT](https://suiscan.xyz/testnet/collection/0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0::sui_nft::SuiNFT/items)`.
 
-The package of the SUIII NFT is at [`0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0`](https://suiscan.xyz/testnet/object/0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0/tx-blocks) and the NFT object type is [`0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0::sui_nft::SuiNFT`](https://suiscan.xyz/testnet/collection/0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0::sui_nft::SuiNFT/items).
+View the contract at `[sui_nft.move](./lessons/returning_objects/sui_nft/sources/sui_nft.move)`. Try to mint an NFT to your account and view it at explorer with PTBs.
 
-
-View the contract at [`sui_nft.move`](./lessons/returning_objects/sui_nft/sources/sui_nft.move). Try to mint an NFT to your account and view it at explorer with PTBs.
-
-Navigate to [`scripts/src/return_objects_exercise.ts`](./scripts/src/return_objects_exercise.ts) and complete the exercise.
+Navigate to `[scripts/src/return_objects_exercise.ts](./scripts/src/return_objects_exercise.ts)` and complete the exercise.
 
 ## Lesson 2: Objects as Input
 
@@ -122,24 +162,23 @@ This usage is straightforward, but tends to leave developers wondering what this
 
 ### Exercise 2: Input Objects - Counter
 
-View the contents [`counter.move`](./lessons/input_objects/counter/sources/counter.move). There is a deployed instance of this package on the Sui blockchain. The address of the package is [`0xb3491c9657444a947c97d7eeccff0d4988b432f8a37e7f9a26fb6ed4fbc3df9a`](https://suiscan.xyz/testnet/object/0xb3491c9657444a947c97d7eeccff0d4988b432f8a37e7f9a26fb6ed4fbc3df9a/txs) and the counter object is [0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df9b172e95c0ec6](https://suiscan.xyz/testnet/object/0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df9b172e95c0ec6/fields).
+View the contents `[counter.move](./lessons/input_objects/counter/sources/counter.move)`. There is a deployed instance of this package on the Sui blockchain. The address of the package is `[0xb3491c9657444a947c97d7eeccff0d4988b432f8a37e7f9a26fb6ed4fbc3df9a](https://suiscan.xyz/testnet/object/0xb3491c9657444a947c97d7eeccff0d4988b432f8a37e7f9a26fb6ed4fbc3df9a/txs)` and the counter object is [0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df9b172e95c0ec6](https://suiscan.xyz/testnet/object/0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df9b172e95c0ec6/fields).
 
-
-Navigate to [`scripts/src/input_objects_exercise.ts`](./scripts/src/input_objects_exercise.ts) and complete the exercise.
-
-
+Navigate to `[scripts/src/input_objects_exercise.ts](./scripts/src/input_objects_exercise.ts)` and complete the exercise.
 
 ## Lesson 3: Putting it together
+
 ### Exercise 3: Scavenger Hunting with PTBs
 
-In this exercise, you will try to get the `SUI` coin in Testnet from the vault using a key created by PTBs. The deployed contract is at [`0x9603a31f4b3f32843b819b8ed85a5dd3929bf1919c6693465ad7468f9788ef39`](https://suiscan.xyz/testnet/object/0x9603a31f4b3f32843b819b8ed85a5dd3929bf1919c6693465ad7468f9788ef39/contracts).
+In this exercise, you will try to get the `SUI` coin in Testnet from the vault using a key created by PTBs. The deployed contract is at `[0x9603a31f4b3f32843b819b8ed85a5dd3929bf1919c6693465ad7468f9788ef39](https://suiscan.xyz/testnet/object/0x9603a31f4b3f32843b819b8ed85a5dd3929bf1919c6693465ad7468f9788ef39/contracts)`.
 
-Navigate to [`scavenger`](./lessons/scavenger) to read the smart contract code.
+Navigate to `[scavenger](./lessons/scavenger)` to read the smart contract code.
 
 You will need to create a PTB to:
+
 1. Create a key
-2. Set the key code correctly (Hint: You can view the on-chain vault object fields https://suiscan.xyz/testnet/object/0x8d85d37761d2a4e391c1b547c033eb0e22eb5b825820cbcc0c386b8ecb22be33/fields)
+2. Set the key code correctly (Hint: You can view the on-chain vault object fields [https://suiscan.xyz/testnet/object/0x8d85d37761d2a4e391c1b547c033eb0e22eb5b825820cbcc0c386b8ecb22be33/fields](https://suiscan.xyz/testnet/object/0x8d85d37761d2a4e391c1b547c033eb0e22eb5b825820cbcc0c386b8ecb22be33/fields))
 3. Use the key to withdraw the `SUI` coin from the vault
 4. Transfer the `SUI` coin to your account
 
-Navigate to [`scripts/src/scavenger_hunt_exercise.ts`](./scripts/src/scavenger_hunt_exercise.ts) and complete the exercise.
+Navigate to `[scripts/src/scavenger_hunt_exercise.ts](./scripts/src/scavenger_hunt_exercise.ts)` and complete the exercise.
