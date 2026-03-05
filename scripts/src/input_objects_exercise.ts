@@ -1,4 +1,4 @@
-import { SuiGrpcClient } from '@mysten/sui/grpc';
+import { SuiGrpcClient, Transaction } from '@mysten/sui/grpc';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 import keyPairJson from "../keypair.json" with { type: "json" };
 
@@ -13,6 +13,7 @@ const PACKAGE_ID = `0xb3491c9657444a947c97d7eeccff0d4988b432f8a37e7f9a26fb6ed4fb
 const COUNTER_OBJECT_ID = `0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df9b172e95c0ec6`;
 
 const keypair = Ed25519Keypair.fromSecretKey(keyPairJson.privateKey);
+const suiAddress = keypair.getPublicKey().toSuiAddress();
 
 const suiClient = new SuiGrpcClient({
 	network: 'testnet',
@@ -37,6 +38,7 @@ const main = async () => {
    *
    * Create a new Transaction instance from the @mysten/sui/transactions module.
    */
+  const tx = new Transaction();
 
   /**
    * Task 2:
@@ -48,6 +50,7 @@ const main = async () => {
    * Resources:
    * - SplitCoins: https://sdk.mystenlabs.com/typescript/transaction-building/basics
    */
+  const [feeCoin] = tx.splitCoins(tx.gas, [tx.pure.u64(10)]);
 
   /**
    * Task 3:
@@ -61,6 +64,13 @@ const main = async () => {
    * Resources:
    * - Object inputs: https://sdk.mystenlabs.com/typescript/transaction-building/basics#object-references
    */
+  tx.moveCall({
+    target: `${PACKAGE_ID}::counter::increment`,
+    arguments: [
+      tx.object(COUNTER_OBJECT_ID),  // The counter object
+      feeCoin,                        // The fee coin
+    ],
+  });
 
   /**
    * Task 4:
@@ -72,6 +82,15 @@ const main = async () => {
    * Resources:
    * - Observing transaction results: https://sdk.mystenlabs.com/typescript/transaction-building/basics#observing-the-results-of-a-transaction
    */
+  const result = await suiClient.signAndExecuteTransaction({
+    transaction: tx,
+    sender: suiAddress,
+    keyPair: keypair,
+  });
+
+  console.log("Transaction executed successfully!");
+  console.log("Digest:", result.digest);
+  console.log("Status:", result.effects?.status);
 
   /**
    * Task 5: Run the script with the command below and ensure it works!
