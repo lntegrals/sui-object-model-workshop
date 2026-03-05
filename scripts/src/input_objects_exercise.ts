@@ -1,4 +1,5 @@
-import { SuiGrpcClient, Transaction } from '@mysten/sui/grpc';
+import { SuiJsonRpcClient } from '@mysten/sui/jsonRpc';
+import { Transaction } from '@mysten/sui/transactions';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 import keyPairJson from "../keypair.json" with { type: "json" };
 
@@ -15,9 +16,8 @@ const COUNTER_OBJECT_ID = `0x8a6f2bc3af32c71a93a35d397fd47c14f67b7aa252002c907df
 const keypair = Ed25519Keypair.fromSecretKey(keyPairJson.privateKey);
 const suiAddress = keypair.getPublicKey().toSuiAddress();
 
-const suiClient = new SuiGrpcClient({
-	network: 'testnet',
-	baseUrl: 'https://fullnode.testnet.sui.io:443',
+const suiClient = new SuiJsonRpcClient({
+	url: 'https://fullnode.testnet.sui.io:443',
 });
 
 /**
@@ -85,7 +85,6 @@ const main = async () => {
   const result = await suiClient.signAndExecuteTransaction({
     transaction: tx,
     sender: suiAddress,
-    keyPair: keypair,
   });
 
   console.log("Transaction executed successfully!");

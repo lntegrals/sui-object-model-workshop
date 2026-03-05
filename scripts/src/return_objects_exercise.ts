@@ -1,6 +1,6 @@
-import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import keyPairJson from "../keypair.json" with { type: "json" };
-import { SuiGrpcClient, Transaction } from "@mysten/sui";
+import { Ed25519Keypair } from '@mysten/sui';
+import keyPairJson from '../keypair.json';
+import { JsonRpcProvider, Transaction } from '@mysten/sui';
 
 /**
  *
@@ -12,12 +12,9 @@ import { SuiGrpcClient, Transaction } from "@mysten/sui";
 const keypair = Ed25519Keypair.fromSecretKey(keyPairJson.privateKey);
 const suiAddress = keypair.getPublicKey().toSuiAddress();
 
-const PACKAGE_ID = `0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0`;
+const PACKAGE_ID = '0x57e029acbe322c733c1936ccba3642f27d0525c3883cf4e2742053ba2c5490b0';
 
-const suiClient = new SuiGrpcClient({
-	network: 'testnet',
-	baseUrl: 'https://fullnode.testnet.sui.io:443',
-});
+const provider = new JsonRpcProvider('https://fullnode.testnet.sui.io:443');
 
 /**
  * Returning Objects: Exercise 1
@@ -73,15 +70,14 @@ const main = async () => {
    *
    * Print the result to the console.
    */
-  const result = await suiClient.signAndExecuteTransaction({
+  const result = await provider.signAndExecuteTransaction({
     transaction: tx,
-    sender: suiAddress,
-    keyPair: keypair,
+    signer: keypair,
   });
 
-  console.log("Transaction executed successfully!");
-  console.log("Digest:", result.digest);
-  console.log("Status:", result.effects?.status);
+  console.log('Transaction executed successfully!');
+  console.log('Digest:', result.digest);
+  console.log('Status:', result.effects?.status);
 
   /**
    * Task 5: Run the script with the command below and ensure it works!

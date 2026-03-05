@@ -16,7 +16,6 @@
     "scavenger-hunt": "ts-node src/scavenger_hunt_exercise.ts"
   },
   "dependencies": {
-    "@mysten/sui": "^2.3.0",
     "dotenv": "^16.4.5"
   }
 }
